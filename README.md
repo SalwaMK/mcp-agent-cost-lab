@@ -32,6 +32,19 @@ streamlit run app.py
 
 The server offers two tools: `get_deadlines(course)` and `search_notes(query)`. For broad deadline questions, the client gathers notes and deadline context for every course before asking Groq, so the model can answer without asking which course; since the notes contain weekdays rather than calendar dates, it will say when the exact week is unclear. Change the tool descriptions or notes, then compare calls, tokens, latency, and estimated cost in the app.
 
+## How token usage and cost are calculated
+
+For every Groq model call, the client records `prompt_tokens` as input tokens and `completion_tokens` as output tokens from the API response's `usage` data. The totals are the sums across all model calls in the agent run. Input tokens may increase on later calls because the conversation history, including earlier tool requests and results, is sent again.
+
+The estimated cost uses the per-million-token rates set in `agent.py` (`PRICE_INPUT = $0.075` and `PRICE_OUTPUT = $0.30`):
+
+```text
+estimated cost = (total input tokens × input price per million
+                + total output tokens × output price per million) / 1,000,000
+```
+
+This is an estimate for model tokens; MCP tool calls are not priced into it.
+
 ## Workshop activity
 
 Run both questions, then change a tool description or shorten the search results and compare the reports. Record your measurements:
