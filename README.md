@@ -30,7 +30,7 @@ Open the visual report:
 streamlit run app.py
 ```
 
-The server offers two tools: `get_deadlines(course)` and `search_notes(query)`. Change the tool descriptions or notes, then compare calls, tokens, latency, and estimated cost in the app.
+The server offers two tools: `get_deadlines(course)` and `search_notes(query)`. For broad deadline questions, the client gathers notes and deadline context for every course before asking Groq, so the model can answer without asking which course; since the notes contain weekdays rather than calendar dates, it will say when the exact week is unclear. Change the tool descriptions or notes, then compare calls, tokens, latency, and estimated cost in the app.
 
 ## Workshop activity
 
